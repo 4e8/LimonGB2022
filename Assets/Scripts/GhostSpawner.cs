@@ -5,21 +5,24 @@ using UnityEngine;
 public class GhostSpawner : MonoBehaviour
 {
     public Object ghost;
-    Transform[] spawnPoints;
-    public float targetTime = Time.time+1f;
+    public Transform[] spawnPoints;
+    public float targetTime;
     // Update is called once per frame
+    private void Start()
+    {
+        targetTime = Time.time + 1f;
+    }
     void Update()
     {
-        targetTime -= Time.smoothDeltaTime;
-        if (targetTime > 0f)
+        if (Time.time > targetTime)
         {
-            targetTime = Time.time + GameObject.FindGameObjectsWithTag("Ghost").Length;
             Spawn();
         }
     }
 
     void Spawn()
     {
-        Object.Instantiate(ghost, spawnPoints[Random.Range(0, spawnPoints.Length)]);
-    }
+        Object.Instantiate(ghost);
+        targetTime = Time.time + GameObject.FindGameObjectsWithTag("Ghost").Length * 10;
+    } 
 }

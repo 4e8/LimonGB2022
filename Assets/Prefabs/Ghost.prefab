@@ -546,7 +546,6 @@ GameObject:
   - component: {fileID: 549196560742339743}
   - component: {fileID: 6095326250914434527}
   - component: {fileID: 8638476482280748219}
-  - component: {fileID: 2016614388868523809}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Ghost
@@ -752,20 +751,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   gameEnding: {fileID: 0}
---- !u!114 &2016614388868523809
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3830403731289900243}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d382b99fbc4b9c34fa4ec6ef270781d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 0}
-  waypoints: []
 --- !u!1 &3830403731289900245
 GameObject:
   m_ObjectHideFlags: 0
