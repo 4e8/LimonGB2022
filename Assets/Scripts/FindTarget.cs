@@ -20,6 +20,10 @@ namespace Game
         {
             if (other.tag.Equals(targetTag)) target = other.transform;
         }
+        private void OnTriggerExit(Collider other)
+        {
+            if( other.tag.Equals(targetTag)) target = null;
+        }
 
         //private void OnTriggerExit(Collider other)
         //{

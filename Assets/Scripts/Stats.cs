@@ -9,7 +9,6 @@ namespace Game
     {
         [SerializeField] private float health = 10f;
         private float healthCurrent; 
-        public float attack = 2f;
         // Start is called before the first frame update
         void Start()
         {

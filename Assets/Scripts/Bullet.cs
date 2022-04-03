@@ -16,14 +16,14 @@ namespace Game
         }
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.TryGetComponent(out Stats targetStats))
-            {
+            if (collision.gameObject.TryGetComponent(out Stats targetStats)) 
                 targetStats.Hit(damage);
-                
-            }
-            
+
+            if (collision.gameObject.TryGetComponent(out CollisionChild target))
+                target.Hit(damage);
+
             Destroy(gameObject);
-            Explode();
+            if (boomPrefab != null) Explode();
         }
         private void Explode()
         {
