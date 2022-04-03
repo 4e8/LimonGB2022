@@ -2,24 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GhostSpawner : MonoBehaviour
+namespace Game
 {
-    public Object ghost;
-    Transform[] spawnPoints;
-    public float targetTime = Time.time+1f;
-    // Update is called once per frame
-    void Update()
+    public class GhostSpawner : MonoBehaviour
     {
-        targetTime -= Time.smoothDeltaTime;
-        if (targetTime > 0f)
+        public Object ghost;
+        public Transform[] spawnPoints;
+        public float targetTime;
+        // Update is called once per frame
+        private void Start()
         {
-            targetTime = Time.time + GameObject.FindGameObjectsWithTag("Ghost").Length;
-            Spawn();
+            targetTime = Time.time + 1f;
         }
-    }
+        void Update()
+        {
+            if (Time.time > targetTime)
+            {
+                Spawn();
+            }
+        }
 
-    void Spawn()
-    {
-        Object.Instantiate(ghost, spawnPoints[Random.Range(0, spawnPoints.Length)]);
+        void Spawn()
+        {
+            Object.Instantiate(ghost);
+            targetTime = Time.time + GameObject.FindGameObjectsWithTag("Ghost").Length * 10;
+        }
+
     }
 }

@@ -546,7 +546,7 @@ GameObject:
   - component: {fileID: 549196560742339743}
   - component: {fileID: 6095326250914434527}
   - component: {fileID: 8638476482280748219}
-  - component: {fileID: 2016614388868523809}
+  - component: {fileID: 60106686572483201}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Ghost
@@ -600,7 +600,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.25
+  m_Radius: 0.4
   m_Height: 1.2
   m_Direction: 1
   m_Center: {x: 0, y: 0.6, z: 0}
@@ -745,14 +745,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3830403731289900243}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b685fc8461c107743b8aa3b2582ecc05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   gameEnding: {fileID: 0}
---- !u!114 &2016614388868523809
+--- !u!114 &60106686572483201
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -761,11 +761,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3830403731289900243}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d382b99fbc4b9c34fa4ec6ef270781d9, type: 3}
+  m_Script: {fileID: 11500000, guid: 7821b537f9e5ee746a64ba205561cf23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 0}
-  waypoints: []
+  health: 2
+  attack: 2
 --- !u!1 &3830403731289900245
 GameObject:
   m_ObjectHideFlags: 0
@@ -1017,6 +1017,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PointOfView
+      objectReference: {fileID: 0}
+    - target: {fileID: 8072100885068356844, guid: 83eb6fc135ada5640a1d1312de0233cc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83eb6fc135ada5640a1d1312de0233cc, type: 3}
