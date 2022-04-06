@@ -7,23 +7,36 @@ namespace Game
 {
     public class Stats : MonoBehaviour
     {
-        [SerializeField] private float health = 10f;
-        private float healthCurrent; 
-        // Start is called before the first frame update
+        [SerializeField] private float healthMax = 10f;
+        private float healthCurrent;
+
+        [SerializeField] private GameObject spawnPoint;
+        private Respawner resp;
+
         void Start()
         {
-            healthCurrent = health;
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            
+            healthCurrent = healthMax;
+            if (spawnPoint.gameObject.TryGetComponent(out Respawner resp)) this.resp = resp;
+            resp.obj = gameObject;
         }
         public void Hit(float damage)
         {
             healthCurrent -= damage;
-            if (healthCurrent <= 0) Destroy(gameObject);
+            if (healthCurrent <= 0) Die();
+            if (healthCurrent > healthMax) healthCurrent = healthMax;
         }
+        private void Die()
+        {
+            resp.Respawn();
+            gameObject.SetActive(false);
+           
+        }
+        //private IEnumerator Respawn(float delay)
+        //{
+        //    yield return new WaitForSeconds(delay);
+        //    healthCurrent = healthMax;
+        //    gameObject.transform.position = spawnPoint.position;
+        //    gameObject.SetActive(true);
+        //}
     }
 }
