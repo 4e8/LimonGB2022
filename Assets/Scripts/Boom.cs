@@ -25,8 +25,9 @@ namespace Game
             if (other.gameObject.TryGetComponent(out Stats targetStats))
             {
                 targetStats.Hit(damage);
-
             }
+            if (other.gameObject.TryGetComponent(out Rigidbody body))
+                body.AddForce((other.transform.position - transform.position)*damage*10000);
             
         }
     }

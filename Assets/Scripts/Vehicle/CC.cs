@@ -35,7 +35,7 @@ namespace Game
             body = GetComponent<Rigidbody>();
             body.centerOfMass = centerOfMass.transform.localPosition;
         }
-        private void FixedUpdate()
+        private void Update()
         {
             currentAcceleration = acceleration * Input.GetAxis("Vertical");
             

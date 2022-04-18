@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game
-{
-    
+{    
     public class FindTarget : MonoBehaviour
     {
         
@@ -24,10 +23,5 @@ namespace Game
         {
             if( other.tag.Equals(targetTag)) target = null;
         }
-
-        //private void OnTriggerExit(Collider other)
-        //{
-        //    if (other.tag.Equals(targetTag)) target = null;
-        //}
     }
 }

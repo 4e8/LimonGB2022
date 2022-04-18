@@ -7,21 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4086484949003682312, guid: b91cff76e12d42942a24531d7a8881fa,
-        type: 3}
-      propertyPath: speed
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 4086484949003682312, guid: b91cff76e12d42942a24531d7a8881fa,
-        type: 3}
-      propertyPath: damage
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4086484949003682312, guid: b91cff76e12d42942a24531d7a8881fa,
-        type: 3}
-      propertyPath: boomPrefab
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 4257231072830366133, guid: b91cff76e12d42942a24531d7a8881fa,
         type: 3}
       propertyPath: m_RootOrder

@@ -5160,10 +5160,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4722236510932744}
-  - component: {fileID: 669574263}
-  - component: {fileID: 669574260}
-  - component: {fileID: 669574261}
-  - component: {fileID: 669574262}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -5187,61 +5183,6 @@ Transform:
   m_Father: {fileID: 4595654756050798}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &669574263
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1543343654471068}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 20
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &669574260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1543343654471068}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a5848231b16f541a00452a0e21df90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnPoint: {fileID: 4703932692914808}
-  bulletPrefab: {fileID: 7145006772262795977, guid: 12ea0a574b594264685afffd52fff036,
-    type: 3}
-  AttackDelay: 1
---- !u!114 &669574261
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1543343654471068}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5400cc10775fe6646ac738b8896e0e76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationSpeed: 2
---- !u!114 &669574262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1543343654471068}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8053bd8b63d375c4fa8ac4b9510847bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetTag: Player
 --- !u!1 &1875090778556656
 GameObject:
   m_ObjectHideFlags: 0
@@ -5252,6 +5193,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4595654756050798}
   - component: {fileID: 380334562587690783}
+  - component: {fileID: 3954785468519512482}
+  - component: {fileID: 5085102063722149538}
+  - component: {fileID: 7475914822545597213}
+  - component: {fileID: 3358179545623383690}
   m_Layer: 0
   m_Name: FattyCannonG02
   m_TagString: Untagged
@@ -5287,7 +5232,70 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7821b537f9e5ee746a64ba205561cf23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 50
+  healthMax: 50
+  spawnPoint: {fileID: 0}
+--- !u!135 &3954785468519512482
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875090778556656}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 50
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5085102063722149538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875090778556656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8053bd8b63d375c4fa8ac4b9510847bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTag: Player
+--- !u!114 &7475914822545597213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875090778556656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a5848231b16f541a00452a0e21df90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPoint: {fileID: 4703932692914808}
+  bulletPrefab: {fileID: 7199793532955683012, guid: c3290884c165c3b418099f4a28fd4598,
+    type: 3}
+  impulse: 20
+--- !u!114 &3358179545623383690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875090778556656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea5f0046eed8efd41967bb962f5bd1be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  rotationSpeed: 1
+  turretX: {fileID: 4722236510932744}
+  turretY: {fileID: 4597034265451690}
+  requiredAngleToFire: 10
+  gunType: 1
+  predictFire: 0
+  readyToFire: 0
 --- !u!1 &1931211189434318
 GameObject:
   m_ObjectHideFlags: 0
@@ -5312,7 +5320,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1931211189434318}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 3}
+  m_LocalPosition: {x: 0, y: 0, z: 3.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4905286732937208}

@@ -6,13 +6,19 @@ namespace Game
 {
     public class Bullet : MonoBehaviour
     {
-        [SerializeField] private float speed = 20f;
+        //[SerializeField] private float speed = 20f;
         [SerializeField] private float damage = 3f;
         [SerializeField] private GameObject boomPrefab;
         [SerializeField] private Transform spawnPoint;
+        private Rigidbody rb;
+        private void Start()
+        {
+            rb = GetComponent<Rigidbody>();
+        }
         private void FixedUpdate()
         {
-            transform.position += transform.forward * speed * Time.fixedDeltaTime;
+            //transform.position += transform.forward * speed * Time.fixedDeltaTime;
+            transform.forward = rb.velocity;
         }
         private void OnCollisionEnter(Collision collision)
         {

@@ -10,14 +10,19 @@ namespace Game
     {
         [SerializeField] private Transform spawnPoint;
         [SerializeField] private Bullet bulletPrefab;
+        [SerializeField] private float impulse;
 
         private FindTarget findTarget;
+        
 
         private float AttackSpeed = 1;
         private float AttackTime;
-        public float AttackDelay = 1;
+        private float AttackDelay = 1;
         //public Component Stats;
         //public float AttackDamage = ;
+
+        public float Impulse => impulse;
+        public Transform Spawnpoint => spawnPoint;
         private void Start()
         {
             findTarget = GetComponent<FindTarget>();
@@ -25,6 +30,11 @@ namespace Game
         private void Shoot()
         {
             var bullet = Instantiate(bulletPrefab,spawnPoint.position, spawnPoint.rotation);
+            if (bullet.TryGetComponent(out Rigidbody body))
+            {
+                body.velocity = Vector3.zero;
+                body.AddForce(impulse * spawnPoint.transform.forward, ForceMode.Impulse);
+            }
         }
 
         // Update is called once per frame

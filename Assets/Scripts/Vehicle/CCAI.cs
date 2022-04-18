@@ -16,65 +16,69 @@ namespace Game
         [SerializeField] Transform BRTransform;
         [SerializeField] Transform BLTransform;
 
-        public Transform[] waypoints;
-        public Transform currentWaypoint;
+        [SerializeField] float maxRPM = 100;
+        [SerializeField] float acceleration = 500f;
+        [SerializeField] float breakingForce = 300f;
+
+        [SerializeField] float angle;
+
+        [SerializeField] bool patrol = false;
+        [SerializeField] Transform[] waypoints;
+        [SerializeField] List<Transform> waypointsList;
+        Transform currentWaypoint;
         int m_CurrentWaypointIndex;
-
-        [SerializeField] float RPM;
-
-
-        public float acceleration = 500f;
-        public float breakingForce = 300f;
+        [SerializeField] float rangeToNextWaypoint  = 2;
 
 
+        [SerializeField] private Transform centerOfMass;
+        private Rigidbody body;
         private float currentAcceleration = 0f;
         private float currentBreakingForce = 0f;
 
         private void Start()
         {
+            body = GetComponent<Rigidbody>();
+            body.centerOfMass = centerOfMass.transform.localPosition;
+
             m_CurrentWaypointIndex = 0;
-            currentWaypoint = waypoints[m_CurrentWaypointIndex];
+            currentWaypoint = waypointsList[m_CurrentWaypointIndex];
         }
         private void FixedUpdate()
         {
-            if ((transform.position - currentWaypoint.position).magnitude < 2)
+            if (!currentWaypoint)
             {
-                m_CurrentWaypointIndex = (m_CurrentWaypointIndex + 1) % waypoints.Length;
-                currentWaypoint = waypoints[m_CurrentWaypointIndex];
+                currentBreakingForce = breakingForce;
             }
-            //var direction = waypointPatrol.currentWaypoint.position - transform.position;
-            //currentAcceleration = acceleration;
+            else currentBreakingForce = 0f;
 
-            //turn right to target
-            if (transform.forward.y < (transform.position - currentWaypoint.position).y)
+            var waypointVector = currentWaypoint.position - transform.position;
+            angle = Vector3.SignedAngle(transform.forward, waypointVector, transform.up);
+
+            if ((waypointVector).magnitude < rangeToNextWaypoint)
             {
-                //if (FLCollider.rpm < 50 && FLCollider.rpm > -50)
-                //    FLCollider.motorTorque = acceleration;
-                //else FLCollider.motorTorque = 0f;
-                if (BLCollider.rpm < 50 && BLCollider.rpm > -50)
-                    BLCollider.motorTorque = acceleration;
-                else BLCollider.motorTorque = 0f;
-                //FRCollider.brakeTorque = breakingForce;
-                //BRCollider.brakeTorque = breakingForce;
+                if (patrol)
+                {
+                    m_CurrentWaypointIndex = (m_CurrentWaypointIndex + 1) % waypointsList.Count;
+                    currentWaypoint = waypointsList[m_CurrentWaypointIndex];
+                    
+                }
+                else
+                {
+                    waypointsList.Remove(currentWaypoint);
+                    currentWaypoint = waypointsList[m_CurrentWaypointIndex];
+                }
             }
-            //turn left to target
-            if (transform.forward.y > (transform.position - currentWaypoint.position).y)
-            {
-                //if (FRCollider.rpm < 50 && FRCollider.rpm > -50)
-                //    FRCollider.motorTorque = acceleration;
-                //else FRCollider.motorTorque = 0f;
-                if (BRCollider.rpm < 50 && BRCollider.rpm > -50)
-                    BRCollider.motorTorque = acceleration;
-                else BRCollider.motorTorque = 0f;
-                //FLCollider.brakeTorque = breakingForce;
-                //BLCollider.brakeTorque = breakingForce;
-            }
+            
+            FRCollider.brakeTorque = currentBreakingForce;
+            FLCollider.brakeTorque = currentBreakingForce;
+            BRCollider.brakeTorque = currentBreakingForce;
+            BLCollider.brakeTorque = currentBreakingForce;
 
-            //if (Input.GetKey(KeyCode.Space) || (Input.GetAxis("Vertical") * BRCollider.rpm) < 0) currentBreakingForce = breakingForce;
-            //else currentBreakingForce = 0f;
-
-
-            RPM = BLCollider.rpm;
+            if (angle < -2 && angle >= -22) TurnRight(acceleration);
+            if (angle > 2 && angle <= 22) TurnLeft(acceleration);
+            if (angle < -22) RotateLeft();
+            if (angle > 22) RotateRight();
+            if (angle >= -2 && angle <= 2) GoForward(acceleration);
 
             UpdateWheel(FRCollider, FRTransform);
             UpdateWheel(FLCollider, FLTransform);
@@ -90,6 +94,76 @@ namespace Game
 
             trans.position = position;
             trans.rotation = rotation;
+        }
+        void TurnLeft(float a)
+        {
+            if (BRCollider.rpm < maxRPM && BRCollider.rpm > -maxRPM)
+            {
+                FRCollider.motorTorque = a;
+                BRCollider.motorTorque = a;
+            }
+            else if (a * BRCollider.rpm < 0)
+            {
+                FRCollider.brakeTorque = BRCollider.brakeTorque = breakingForce;
+            }
+            else
+            {
+                FRCollider.motorTorque = 0;
+                BRCollider.motorTorque = 0f;
+                //FRCollider.brakeTorque = BRCollider.brakeTorque = 0;
+            }
+        }
+        void TurnRight(float a)
+        {
+            if (BLCollider.rpm < maxRPM && BLCollider.rpm > -maxRPM)
+            {
+                FLCollider.motorTorque = BLCollider.motorTorque = a;
+            }
+            else if (a * BLCollider.rpm < 0)
+            {
+                FLCollider.brakeTorque = BLCollider.brakeTorque = breakingForce;
+            }
+            else
+            {
+                FLCollider.motorTorque = 0f;
+                BLCollider.motorTorque = 0f;
+                //FLCollider.brakeTorque = BLCollider.brakeTorque = 0;
+            }
+        }
+        void RotateLeft()
+        {
+            TurnLeft(acceleration);
+            TurnRight(-acceleration);
+        }
+        void RotateRight()
+        {
+            TurnRight(acceleration);
+            TurnLeft(-acceleration);
+        }
+        private void GoForward(float a)
+        {
+            FRCollider.motorTorque = a;
+            BRCollider.motorTorque = a;
+            FLCollider.motorTorque = a;
+            BLCollider.motorTorque = a;
+        }
+        public void ClearTarget()
+        {
+            waypointsList.Remove(currentWaypoint);
+            currentWaypoint = waypointsList[m_CurrentWaypointIndex];
+        }
+        public void SetWaypoint(Transform transform)
+        {
+            if (!waypointsList.Contains(transform))
+            {
+            waypointsList.Insert(0, transform);
+            currentWaypoint = transform;
+            }
+        }
+        public void SetWaypoint(int index)
+        {
+            m_CurrentWaypointIndex = index;
+            currentWaypoint = waypointsList[index];
         }
     }
 }
