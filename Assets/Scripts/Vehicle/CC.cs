@@ -21,16 +21,24 @@ namespace Game
 
         public float acceleration = 500f;
         public float breakingForce = 300f;
-        public float maxTurnAngle = 15f;
+        public float maxTurnAngle = 30f;
 
         private float currentAcceleration = 0f;
         private float currentBreakingForce = 0f;
         private float currentTurnAngle = 0f;
         private float setTurnAngle;
 
+        [SerializeField]private Transform centerOfMass;
+        private Rigidbody body;
+        private void Start()
+        {
+            body = GetComponent<Rigidbody>();
+            body.centerOfMass = centerOfMass.transform.localPosition;
+        }
         private void FixedUpdate()
         {
             currentAcceleration = acceleration * Input.GetAxis("Vertical");
+            
 
             if (Input.GetKey(KeyCode.Space) || (Input.GetAxis("Vertical") * BRCollider.rpm) < 0) currentBreakingForce = breakingForce;
             else currentBreakingForce = 0f;
@@ -46,7 +54,7 @@ namespace Game
             BRCollider.brakeTorque = currentBreakingForce;
             BLCollider.brakeTorque = currentBreakingForce;
 
-            setTurnAngle = maxTurnAngle - (FRCollider.rpm / 10);
+            setTurnAngle = (maxTurnAngle * 100) / (Mathf.Abs(FRCollider.rpm) + 100);
             currentTurnAngle = setTurnAngle * Input.GetAxis("Horizontal");
             FRCollider.steerAngle = currentTurnAngle;
             FLCollider.steerAngle = currentTurnAngle;
