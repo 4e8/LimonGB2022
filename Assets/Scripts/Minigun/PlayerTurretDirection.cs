@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game
 {
-    [RequireComponent(typeof(FindTarget))]
+    [RequireComponent(typeof(Fire))]
     public class PlayerTurretDirection : MonoBehaviour
     {
 
@@ -16,7 +16,9 @@ namespace Game
         [SerializeField] private GunType gunType;
         [SerializeField] private bool predictFire = false;
 
-        [HideInInspector] public bool readyToFire = false;
+        
+        bool readyToFire = false;
+        public bool ReadyToFire => readyToFire;
 
         float angX;
         Quaternion qatX;
@@ -24,12 +26,18 @@ namespace Game
         float angY;
         Quaternion qatY;
         float angleCannon;
+
+        Fire rangeAttack;
         public enum GunType
         {
             gun,
             cannon,
         }
-
+        private void Start()
+        {
+            rangeAttack = GetComponent<Fire>();
+            if (target == null) target = GameObject.FindGameObjectWithTag("AimTarget").transform;
+        }
         void Update()
         {
 
@@ -44,14 +52,15 @@ namespace Game
             direction = target.position - turretY.position;
             if (gunType == GunType.cannon)
             {
-                angleCannon = (Mathf.Asin((direction.magnitude * 9.81f) / (20 * 20)) * Mathf.Rad2Deg) / 2;
-                angY = Vector3.Angle(Vector3.up, turretY.forward) - angleCannon;
+                angleCannon = (Mathf.Asin((direction.magnitude * 9.81f) / (Mathf.Pow(rangeAttack.Impulse, 2))) * Mathf.Rad2Deg) / 2;
+                direction = Vector3.RotateTowards(direction, Vector3.up, angleCannon * Mathf.Deg2Rad, 0);
+                angY = Vector3.Angle(Vector3.up, turretY.forward) - Vector3.Angle(Vector3.up, direction);
             }
-            else angY = Vector3.Angle(Vector3.up, turretY.right) - Vector3.Angle(Vector3.up, direction); // RIGHT FOR MINIGUN MODEL
-            qatY = Quaternion.AngleAxis(angY * rotationSpeed * Time.deltaTime, Vector3.forward);
+            else angY = Vector3.Angle(Vector3.up, turretY.forward) - Vector3.Angle(Vector3.up, direction); // RIGHT FOR MINIGUN MODEL
+            qatY = Quaternion.AngleAxis(-angY * rotationSpeed * Time.deltaTime, Vector3.right);
             turretY.rotation = turretY.rotation * qatY;
 
-            if (angX < requiredAngleToFire && angY < requiredAngleToFire) readyToFire = true; else readyToFire = false;
+            if (Mathf.Abs(angX) < requiredAngleToFire && Mathf.Abs(angY) < requiredAngleToFire) readyToFire = true; else readyToFire = false;
         }
     }
 }

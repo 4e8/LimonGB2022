@@ -22,8 +22,8 @@ namespace Game
         }
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.TryGetComponent(out Stats targetStats)) 
-                targetStats.Hit(damage);
+            //if (collision.gameObject.TryGetComponent(out Stats targetStats)) 
+            //    targetStats.Hit(damage);
 
             if (collision.gameObject.TryGetComponent(out CollisionChild target))
                 target.Hit(damage);

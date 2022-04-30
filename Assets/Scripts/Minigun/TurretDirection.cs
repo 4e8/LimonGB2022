@@ -19,7 +19,7 @@ namespace Game
         [SerializeField] private bool predictFire = true;
 
         float test;
-        [HideInInspector] public bool readyToFire = false;
+        bool readyToFire = false;
 
         float angX;
         Quaternion qatX;
@@ -27,13 +27,14 @@ namespace Game
         float angY;
         Quaternion qatY;
         float angleCannon;
+        public bool ReadyToFire => readyToFire;
         public enum GunType
         {
             gun,
             cannon,
         }
-        private FindTarget findTarget;
-        private RangeAttack rangeAttack;
+        FindTarget findTarget;
+        RangeAttack rangeAttack;
 
 
         private void Start()

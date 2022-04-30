@@ -33,6 +33,10 @@ namespace Game
         {
             SceneManager.LoadScene("DemoDay");
         }
+        public void FreePlay()
+        {
+            SceneManager.LoadScene("FreeplayDich");
+        }
         public void Settings()
         {
 

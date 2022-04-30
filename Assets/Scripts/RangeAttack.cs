@@ -13,7 +13,8 @@ namespace Game
         [SerializeField] private float impulse;
 
         private FindTarget findTarget;
-        
+
+        TurretDirection turretDirection;
 
         private float AttackSpeed = 1;
         private float AttackTime;
@@ -25,6 +26,7 @@ namespace Game
         public Transform Spawnpoint => spawnPoint;
         private void Start()
         {
+            if (TryGetComponent<TurretDirection>(out TurretDirection turretDirection)) this.turretDirection = turretDirection;
             findTarget = GetComponent<FindTarget>();
         }
         private void Shoot()
@@ -40,7 +42,7 @@ namespace Game
         // Update is called once per frame
         private void Update()
         {
-            if (findTarget.HasTarget && (Time.time > AttackTime))
+            if (findTarget.HasTarget && turretDirection.ReadyToFire && (Time.time > AttackTime))
             {
                 AttackTime = Time.time + AttackDelay;
                 Shoot();
