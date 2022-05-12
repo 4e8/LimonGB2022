@@ -15,6 +15,7 @@ namespace Game
         [SerializeField] Camera camera;
 
         Transform defaultTarget;
+        [SerializeField] Transform raceTarget;
         CinemachineComposer composer;
         private void Start()
         {
@@ -43,6 +44,13 @@ namespace Game
                 //remove after stats variant
                 //if (hit.collider.gameObject.TryGetComponent<Stats>(out Stats targetStats)) targetStats.SetTargetHpBar(targetHpBar); 
                 if (hit.collider.gameObject.TryGetComponent<CollisionChild>(out CollisionChild target) && target.Parent != MyStats) target.SetTargetHpBar(targetHpBar);
+                composer.m_DeadZoneWidth = 0.1f;
+                composer.m_DeadZoneHeight = 0.1f;
+
+            }
+            if (Input.GetKey(KeyCode.R))
+            {
+                vcam.LookAt = raceTarget;
                 composer.m_DeadZoneWidth = 0.1f;
                 composer.m_DeadZoneHeight = 0.1f;
 

@@ -31,11 +31,16 @@ namespace Game
         }   
         public void Play()
         {
-            SceneManager.LoadScene("DemoDay");
+            SceneManager.LoadScene("World1");
         }
         public void FreePlay()
         {
             SceneManager.LoadScene("FreeplayDich");
+        }
+        public void Restart()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            Time.timeScale = 1;
         }
         public void Settings()
         {
