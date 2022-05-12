@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 namespace Game
 {
     public class Stats : MonoBehaviour
     {
+        [SerializeField] private Image hpbar;
         [SerializeField] private float healthMax = 10f;
         private float healthCurrent;
 
@@ -24,12 +26,17 @@ namespace Game
             healthCurrent -= damage;
             if (healthCurrent <= 0) Die();
             if (healthCurrent > healthMax) healthCurrent = healthMax;
+            hpbar.fillAmount = healthCurrent/healthMax;
         }
         private void Die()
         {
-            resp.Respawn();
             gameObject.SetActive(false);
+            resp.Respawn();
            
+        }
+        public void SetTargetHpBar(Image img)
+        {
+            hpbar = img;
         }
         //private IEnumerator Respawn(float delay)
         //{

@@ -9,15 +9,20 @@ namespace Game
     {
         [SerializeField] string requireTag;
         [SerializeField] GameObject door;
+        [SerializeField] Animator animator;
 
         private bool open = false;
         private void OnTriggerEnter(Collider other)
         {
             if (other.tag == requireTag)
             {
-                if (open == false) door.transform.Translate(0,-2,0);
-                else door.transform.Translate(0, 2, 0);
-                open = !open;
+                animator.SetBool("Open", !animator.GetBool("Open"));
+                //animator.speed *= -1;
+                //animator.Play("bridgeGates");
+
+                //if (open == false) door.transform.Translate(0,-2,0);
+                //else door.transform.Translate(0, 2, 0);
+                //open = !open;
             }
         }
     }
