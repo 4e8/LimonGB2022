@@ -24,16 +24,16 @@ namespace Game
     {
         [SerializeField] GameObject fogTrail;
         [SerializeField] ParticleSystem fogParticle;
-        ParticleSystem part;
 
         public WheelCollider[] Wheels => wheelColliders;
         [SerializeField] WheelCollider[] wheelColliders;
         [SerializeField] Transform[] wheelMeshes;
         [SerializeField] ParticleSystem[] wheelParticles;
-        
+        int wheelCount;
+        [SerializeField] int steeringWheelsCount = 2;
+        int driveWheelsCount;
 
         [SerializeField] float maxSpeed = 20;
-        //float maxRPM;
 
         [SerializeField] Fuel fuel;
 
@@ -62,11 +62,9 @@ namespace Game
         Gear currentGear;
         int currentGearIndex;
         int awd = 2;
-        //float gearRate = 100;
         float avgRpm;
 
 
-        float test;
         [SerializeField] Transform centerOfMass;
         Rigidbody body;
         bool[] drift;
@@ -75,6 +73,9 @@ namespace Game
 
         [SerializeField] LightsController lightsController;
         [SerializeField] CarSoundController carSoundController;
+        
+        
+        float test;
         private void Start()
         {
             fuel = GetComponent<Fuel>();
@@ -82,14 +83,17 @@ namespace Game
             body.centerOfMass = centerOfMass.transform.localPosition;
             transmission[transmission.Length-1].UpShiftRpm = maxSpeed / ((wheelColliders[1].radius) * 2 * 0.1885f);
             wheelParticles = new ParticleSystem[wheelColliders.Length];
-            for (int i = 0; i < wheelColliders.Length; i++)
+            wheelCount = wheelColliders.Length;
+            for (int i = 0; i < wheelCount; i++)
             {
                 wheelParticles[i] = wheelColliders[i].GetComponent<ParticleSystem>();
             }
             lightsController = GetComponent<LightsController>();
             carSoundController = GetComponent<CarSoundController>();
-            driftDelay = new float[wheelColliders.Length];
-            drift = new bool[wheelColliders.Length];
+            driftDelay = new float[wheelCount];
+            drift = new bool[wheelCount];
+            awd = driveWheelsCount = wheelColliders.Length - steeringWheelsCount;
+            
         }
         private void Update()
         {
@@ -108,13 +112,12 @@ namespace Game
             SetTurnAngle = ((maxTurnAngle + (Vector3.Angle(gameObject.transform.forward, body.velocity))) * 200) / (Mathf.Abs(wheelColliders[2].rpm) + 200);
             currentTurnAngle = SetTurnAngle * Input.GetAxis("Horizontal");
 
-
-            wheelColliders[2].steerAngle = currentTurnAngle;
-            wheelColliders[3].steerAngle = currentTurnAngle;
+            for (int i = wheelCount-steeringWheelsCount; i < wheelCount; i++)
+                wheelColliders[i].steerAngle = currentTurnAngle;
 
             WheelHit wheelHit;
 
-            for (int i = 0; i < wheelColliders.Length; i++)
+            for (int i = 0; i < wheelCount; i++)
             {
                 UpdateWheel(wheelColliders[i], wheelMeshes[i]);
                 wheelColliders[i].GetGroundHit(out wheelHit);
@@ -158,19 +161,16 @@ namespace Game
         {
             currentAcceleration = fuel.Empty ? 0 : acceleration * Input.GetAxis("Vertical");
             test = currentAcceleration / awd * currentGear.Rate;
-            //avgRpm = 0f;
             for (int i = 0; i < awd; i++)
             {
                 //if (wheelColliders[i].isGrounded && wheelColliders[i].rpm < maxRPM && wheelColliders[i].rpm > -gearRate)
-                if (wheelColliders[i].isGrounded && avgRpm < currentGear.UpShiftRpm + 10 && avgRpm > transmission[0].DownShiftRpm)// && !drift[i])
+                if (wheelColliders[i].rpm < avgRpm+10 && avgRpm < currentGear.UpShiftRpm + 10 && avgRpm > transmission[0].DownShiftRpm)// && !drift[i])
                 {
                     //wheelColliders[i].motorTorque = currentAcceleration / awd / (Mathf.Round(Mathf.Abs(wheelColliders[i].rpm) / gearRate) + 1);
                     wheelColliders[i].motorTorque = currentAcceleration / awd * currentGear.Rate;
-                    //avgRpm += wheelColliders[i].rpm;
                 }
                 else wheelColliders[i].motorTorque = 0f;
             }
-            //avgRpm /= awd;
             //carSoundController.EngineSoundSpeed(((avgRpm) / gearRate) + 1 - (Mathf.Round(wheelColliders[1].rpm / gearRate)));
             carSoundController.EngineSoundSpeed(((avgRpm - currentGear.DownShiftRpm) / (currentGear.UpShiftRpm - currentGear.DownShiftRpm))+0.5f);
 
@@ -193,7 +193,7 @@ namespace Game
         }
         void SwitchAWD()
         {
-            awd = awd == 2 ? wheelColliders.Length : 2;
+            awd = awd == driveWheelsCount ? wheelCount : driveWheelsCount;
             foreach (WheelCollider col in wheelColliders) col.motorTorque = 0f;
         }
         private void SwitchGear()
