@@ -8,19 +8,16 @@ namespace Game
 
     public class RangeAttack : MonoBehaviour
     {
-        [SerializeField] private Transform spawnPoint;
-        [SerializeField] private Bullet bulletPrefab;
-        [SerializeField] private float impulse;
+        [SerializeField] Transform spawnPoint;
+        [SerializeField] Bullet bulletPrefab;
+        [SerializeField] float impulse;
+        [SerializeField] float AttackDelay = 1;
 
-        private FindTarget findTarget;
+        FindTarget findTarget;
 
         TurretDirection turretDirection;
+        float AttackTime;
 
-        private float AttackSpeed = 1;
-        private float AttackTime;
-        private float AttackDelay = 1;
-        //public Component Stats;
-        //public float AttackDamage = ;
 
         public float Impulse => impulse;
         public Transform Spawnpoint => spawnPoint;
@@ -39,7 +36,6 @@ namespace Game
             }
         }
 
-        // Update is called once per frame
         private void Update()
         {
             if (findTarget.HasTarget && turretDirection.ReadyToFire && (Time.time > AttackTime))

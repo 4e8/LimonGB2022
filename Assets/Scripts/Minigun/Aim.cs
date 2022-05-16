@@ -10,13 +10,15 @@ namespace Game
     {
         [SerializeField] Stats MyStats;
         //[SerializeField] private float surfaceOffset = 1f;
-        [SerializeField] private CinemachineVirtualCamera vcam;
-        [SerializeField] private Image targetHpBar;
+        [SerializeField] CinemachineVirtualCamera vcam;
+        [SerializeField] Image targetHpBar;
         [SerializeField] Camera camera;
 
         Transform defaultTarget;
         [SerializeField] Transform raceTarget;
         CinemachineComposer composer;
+
+        [SerializeField] GuiHpBar guiHp;
         private void Start()
         {
             //cam = GetComponent<CinemachineVirtualCamera>();
@@ -43,7 +45,11 @@ namespace Game
                 vcam.LookAt = hit.transform;
                 //remove after stats variant
                 //if (hit.collider.gameObject.TryGetComponent<Stats>(out Stats targetStats)) targetStats.SetTargetHpBar(targetHpBar); 
-                if (hit.collider.gameObject.TryGetComponent<CollisionChild>(out CollisionChild target) && target.Parent != MyStats) target.SetTargetHpBar(targetHpBar);
+                if (hit.collider.gameObject.TryGetComponent<CollisionChild>(out CollisionChild target) && target.Parent != MyStats)
+                {
+                    target.SetTargetHpBar(targetHpBar);
+                    target.SetTargetHpBar(guiHp);
+                }
                 composer.m_DeadZoneWidth = 0.1f;
                 composer.m_DeadZoneHeight = 0.1f;
 
@@ -61,7 +67,7 @@ namespace Game
                 composer.m_DeadZoneWidth = 0.5f;
                 composer.m_DeadZoneHeight = 0.5f;
             }
-            if (!vcam.LookAt.gameObject.active)
+            if (!vcam.LookAt.gameObject.active || vcam.LookAt == null)
             {
                 vcam.LookAt = defaultTarget;
                 composer.m_DeadZoneWidth = 0.5f;
