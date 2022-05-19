@@ -172,7 +172,7 @@ namespace Game
                 else wheelColliders[i].motorTorque = 0f;
             }
             //carSoundController.EngineSoundSpeed(((avgRpm) / gearRate) + 1 - (Mathf.Round(wheelColliders[1].rpm / gearRate)));
-            carSoundController.EngineSoundSpeed(((avgRpm - currentGear.DownShiftRpm) / (currentGear.UpShiftRpm - currentGear.DownShiftRpm))+0.5f);
+            carSoundController.EngineSoundSpeed(((Mathf.Abs(avgRpm) - currentGear.DownShiftRpm) / (currentGear.UpShiftRpm - currentGear.DownShiftRpm)) + 0.5f);
 
 
             //if (wheelColliders[1].rpm < maxRPM && wheelColliders[1].rpm > -maxRPM/3)

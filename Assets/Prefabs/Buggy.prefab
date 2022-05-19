@@ -167,7 +167,7 @@ Light:
       e32: 0
       e33: 1
     m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
+  m_Cookie: {fileID: 2800000, guid: 2c29c08dd1c0b6749b7cd0fcff7a29fd, type: 3}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
   m_RenderMode: 0
@@ -10144,8 +10144,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1291899625216217309}
-  m_LocalRotation: {x: -0.014004506, y: 0.00016730277, z: 0.01203128, w: -0.9998296}
-  m_LocalPosition: {x: 0.07384887, y: 3.078926, z: -9.917627}
+  m_LocalRotation: {x: -0.014004517, y: 0.00015824474, z: 0.012031204, w: -0.99982965}
+  m_LocalPosition: {x: 0.07179654, y: 3.078949, z: -9.917507}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1291899624431745461}
@@ -10379,6 +10379,7 @@ MonoBehaviour:
   targetHpBar: {fileID: 0}
   camera: {fileID: 1291899625711051876}
   raceTarget: {fileID: 6309407772243669160}
+  guiHp: {fileID: 0}
 --- !u!1 &1291899625633473146
 GameObject:
   m_ObjectHideFlags: 0
@@ -10453,7 +10454,7 @@ Light:
       e32: 0
       e33: 1
     m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
+  m_Cookie: {fileID: 2800000, guid: 2c29c08dd1c0b6749b7cd0fcff7a29fd, type: 3}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
   m_RenderMode: 0
@@ -10498,8 +10499,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1291899625711051874}
-  m_LocalRotation: {x: -0.014004506, y: 0.00016730277, z: 0.01203128, w: -0.9998296}
-  m_LocalPosition: {x: 0.07384887, y: 3.078926, z: -9.917627}
+  m_LocalRotation: {x: -0.014004517, y: 0.00015824474, z: 0.012031204, w: -0.99982965}
+  m_LocalPosition: {x: 0.07179654, y: 3.078949, z: -9.917507}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4214478971456422070}
@@ -40649,7 +40650,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6936058098002049966}
-  m_LocalRotation: {x: -0, y: 0.9997368, z: -0, w: -0.02294638}
+  m_LocalRotation: {x: 0, y: 0.99973667, z: -0, w: -0.0229489}
   m_LocalPosition: {x: 336.3, y: 52.8, z: -29.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -40709,6 +40710,7 @@ MonoBehaviour:
   - {fileID: 6234063805512127104}
   - {fileID: 6266592885773839708}
   wheelParticles: []
+  steeringWheelsCount: 2
   maxSpeed: 200
   fuel: {fileID: 0}
   acceleration: 5000
@@ -40731,6 +40733,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpbar: {fileID: 0}
+  hpbargui: {fileID: 0}
   healthMax: 100
   spawnPoint: {fileID: 0}
 --- !u!208 &1291899624104179161
