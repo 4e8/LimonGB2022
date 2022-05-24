@@ -6,43 +6,41 @@ namespace Game
 {    
     public class Fire : MonoBehaviour
     {
-        [SerializeField] WeaponGunConfig config;
+        [SerializeField] WeaponGunConfig _config;
 
-        [SerializeField] Transform spawnPoint;
-        [SerializeField] Bullet bulletPrefab;
-        [SerializeField] float impulse;
-        [SerializeField] float AttackDelay = 1;
+        [SerializeField] Transform _spawnPoint;
+        [SerializeField] Bullet _bulletPrefab;
+        [SerializeField] float _impulse;
+        [SerializeField] float _AttackDelay = 1;
 
-        [SerializeField] Animator animator;
-        public float Impulse => impulse;
+        [SerializeField] Animator _animator;
+        public float Impulse => _impulse;
 
-        float AttackTime;
-        PlayerTurretDirection turretDirection;
+        float _AttackTime;
+        PlayerTurretDirection _turretDirection;
         private void Start()
         {
-            if (TryGetComponent<PlayerTurretDirection>(out PlayerTurretDirection turretDirection)) this.turretDirection = turretDirection;
-            bulletPrefab = config.bulletPrefab;
-            impulse = config.impulse;
-            AttackDelay = config.shootDelay;
+            if (TryGetComponent<PlayerTurretDirection>(out PlayerTurretDirection turretDirection)) this._turretDirection = turretDirection;
+            _bulletPrefab = _config.bulletPrefab;
+            _impulse = _config.impulse;
+            _AttackDelay = _config.shootDelay;
         }
         private void Shoot()
         {
-            var bullet = Instantiate(bulletPrefab, spawnPoint.position, spawnPoint.rotation);
+            var bullet = Instantiate(_bulletPrefab, _spawnPoint.position, _spawnPoint.rotation);
             if (bullet.TryGetComponent(out Rigidbody body))
             {
                 body.velocity = Vector3.zero;
-                body.AddForce(impulse * spawnPoint.transform.forward, ForceMode.Impulse);
+                body.AddForce(_impulse * _spawnPoint.transform.forward, ForceMode.Impulse);
             }
-            //animator.SetBool("Firing", true);
-            if (animator) animator.Play("minigunFire");
+            if (_animator) _animator.Play("minigunFire");
         }
 
-        // Update is called once per frame
         private void Update()
         {
-            if (Input.GetKey(KeyCode.Mouse0) && turretDirection.ReadyToFire && (Time.time > AttackTime))
+            if (Input.GetKey(KeyCode.Mouse0) && _turretDirection.ReadyToFire && (Time.time > _AttackTime))
             {
-                AttackTime = Time.time + AttackDelay;
+                _AttackTime = Time.time + _AttackDelay;
                 Shoot();
             }
         }
