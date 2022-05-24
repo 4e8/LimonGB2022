@@ -36,5 +36,9 @@ namespace Game
         {
             parentWithStats.SetTargetHpBar(img);
         }
+        public void SetTargetHpBar(GuiHpBar img)
+        {
+            parentWithStats.SetTargetHpBarGUI(img);
+        }
     }
 }

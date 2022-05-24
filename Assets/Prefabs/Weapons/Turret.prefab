@@ -300,12 +300,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9267920e3684245449d3262c88b5699a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  config: {fileID: 11400000, guid: 66affb8b7cd1ef64ea5f26bfa82554ac, type: 2}
   spawnPoint: {fileID: 4560573073269880494}
   bulletPrefab: {fileID: 1466991413104309511, guid: 951f3e8ad8e579f47bb205127ad037d6,
     type: 3}
   impulse: 100
-  animator: {fileID: 2729905461847611428}
   AttackDelay: 0.1
+  animator: {fileID: 2729905461847611428}
 --- !u!114 &6785094981010088171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -640,6 +641,7 @@ MonoBehaviour:
   spawnPoint: {fileID: 0}
   bulletPrefab: {fileID: 0}
   impulse: 0
+  AttackDelay: 1
 --- !u!114 &7526086558665029877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -652,12 +654,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9267920e3684245449d3262c88b5699a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  config: {fileID: 0}
   spawnPoint: {fileID: 4560573073269880494}
   bulletPrefab: {fileID: 1466991413104309511, guid: 951f3e8ad8e579f47bb205127ad037d6,
     type: 3}
   impulse: 0
-  animator: {fileID: 0}
   AttackDelay: 0.1
+  animator: {fileID: 0}
 --- !u!114 &8016853305906986494
 MonoBehaviour:
   m_ObjectHideFlags: 0

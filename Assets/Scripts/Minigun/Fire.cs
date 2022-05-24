@@ -6,23 +6,24 @@ namespace Game
 {    
     public class Fire : MonoBehaviour
     {
+        [SerializeField] WeaponGunConfig config;
+
         [SerializeField] Transform spawnPoint;
         [SerializeField] Bullet bulletPrefab;
-        //[SerializeField] private Transform target;
         [SerializeField] float impulse;
+        [SerializeField] float AttackDelay = 1;
 
         [SerializeField] Animator animator;
         public float Impulse => impulse;
 
-        float AttackSpeed = 1;
         float AttackTime;
-        public float AttackDelay = 1;
-        //public Component Stats; 
-        //public float AttackDamage = ;
         PlayerTurretDirection turretDirection;
         private void Start()
         {
             if (TryGetComponent<PlayerTurretDirection>(out PlayerTurretDirection turretDirection)) this.turretDirection = turretDirection;
+            bulletPrefab = config.bulletPrefab;
+            impulse = config.impulse;
+            AttackDelay = config.shootDelay;
         }
         private void Shoot()
         {
