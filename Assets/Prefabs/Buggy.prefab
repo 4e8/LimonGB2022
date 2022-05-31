@@ -10374,12 +10374,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a139a44ed28d2324886e8ba36720e331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyStats: {fileID: 2882126023713415123}
-  vcam: {fileID: 1291899625216217310}
-  targetHpBar: {fileID: 0}
-  camera: {fileID: 1291899625711051876}
-  raceTarget: {fileID: 6309407772243669160}
-  guiHp: {fileID: 0}
+  _myStats: {fileID: 0}
+  _vcam: {fileID: 0}
+  _targetHpBar: {fileID: 0}
+  _raceTarget: {fileID: 0}
 --- !u!1 &1291899625633473146
 GameObject:
   m_ObjectHideFlags: 0
@@ -40717,7 +40715,8 @@ MonoBehaviour:
   breakingForce: 1500
   maxTurnAngle: 45
   centerOfMass: {fileID: 1291899626174539298}
-  skidTrailPrefab: {fileID: 0}
+  skidTrailPrefab: {fileID: 2714745739971788887, guid: 17128f3ab198f6a41adecd87f97f3997,
+    type: 3}
   lightsController: {fileID: 0}
   carSoundController: {fileID: 0}
 --- !u!114 &2882126023713415123
@@ -40732,10 +40731,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7821b537f9e5ee746a64ba205561cf23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpbar: {fileID: 0}
-  hpbargui: {fileID: 0}
-  healthMax: 100
-  spawnPoint: {fileID: 0}
+  _hpbar: {fileID: 0}
+  _hpbargui: {fileID: 0}
+  _healthMax: 10
+  _spawnPoint: {fileID: 0}
 --- !u!208 &1291899624104179161
 NavMeshObstacle:
   m_ObjectHideFlags: 0
