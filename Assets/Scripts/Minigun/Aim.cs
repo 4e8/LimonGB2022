@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.UI;
@@ -8,76 +6,62 @@ namespace Game
 {
     public class Aim : MonoBehaviour
     {
-        [SerializeField] Stats MyStats;
-        //[SerializeField] private float surfaceOffset = 1f;
-        [SerializeField] CinemachineVirtualCamera vcam;
-        [SerializeField] Image targetHpBar;
-        [SerializeField] Camera camera;
+        [SerializeField] Stats _myStats;
+        //[SerializeField] private float _surfaceOffset = 1f;
+        [SerializeField] CinemachineVirtualCamera _vcam;
+        [SerializeField] Image _targetHpBar;
+        Camera _camera;
 
-        Transform defaultTarget;
-        [SerializeField] Transform raceTarget;
-        CinemachineComposer composer;
-
-        [SerializeField] GuiHpBar guiHp;
+        Transform _defaultTarget;
+        [SerializeField] Transform _raceTarget;
+        CinemachineComposer _composer;
         private void Start()
         {
-            //cam = GetComponent<CinemachineVirtualCamera>();
-            defaultTarget = vcam.LookAt;
-            camera = Camera.main;
-            composer = vcam.GetCinemachineComponent<CinemachineComposer>();
+            _defaultTarget = _vcam.LookAt;
+            _camera = Camera.main;
+            _composer = _vcam.GetCinemachineComponent<CinemachineComposer>();
         }
         private void Update()
         {
-            //if (!Input.GetMouseButtonDown(0))
-            //{
-            //    return;
-            //}
+            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit _hit;
             
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (!Physics.Raycast(ray, out hit))
-            {
+            if (!Physics.Raycast(ray, out _hit))
                 return;
-            }
-            transform.position = hit.point; //- (hit.normal * surfaceOffset);
-            if (Input.GetKey(KeyCode.Mouse1))
-            {
-                vcam.LookAt = hit.transform;
-                //remove after stats variant
-                //if (hit.collider.gameObject.TryGetComponent<Stats>(out Stats targetStats)) targetStats.SetTargetHpBar(targetHpBar); 
-                if (hit.collider.gameObject.TryGetComponent<CollisionChild>(out CollisionChild target) && target.Parent != MyStats)
-                {
-                    target.SetTargetHpBar(targetHpBar);
-                    target.SetTargetHpBar(guiHp);
-                }
-                composer.m_DeadZoneWidth = 0.1f;
-                composer.m_DeadZoneHeight = 0.1f;
 
-            }
-            if (Input.GetKey(KeyCode.R))
-            {
-                vcam.LookAt = raceTarget;
-                composer.m_DeadZoneWidth = 0.1f;
-                composer.m_DeadZoneHeight = 0.1f;
+            transform.position = _hit.point; //- (hit.normal * _surfaceOffset);
 
-            }
-            if (Input.GetKey(KeyCode.Mouse2))
-            {
-                vcam.LookAt = defaultTarget;
-                composer.m_DeadZoneWidth = 0.5f;
-                composer.m_DeadZoneHeight = 0.5f;
-            }
-            if (!vcam.LookAt.gameObject.active || vcam.LookAt == null)
-            {
-                vcam.LookAt = defaultTarget;
-                composer.m_DeadZoneWidth = 0.5f;
-                composer.m_DeadZoneHeight = 0.5f;
-            }
-                //if (setTargetOn != null)
-                //{
-                //    setTargetOn.SendMessage("SetTarget", transform);
-                //}
-            }
+            if (Input.GetKey(KeyCode.Mouse1)) 
+                LockTarget(_hit);
+            
+            if (Input.GetKey(KeyCode.R)) 
+                RaceCamMode();
+            
+            if (Input.GetKey(KeyCode.Mouse2) || !_vcam.LookAt.gameObject.active || _vcam.LookAt == null) 
+                ResetTarget();
+        }
 
+        private void LockTarget(RaycastHit hit)
+        {
+            _vcam.LookAt = hit.transform;
+            if (hit.collider.gameObject.TryGetComponent<CollisionChild>(out CollisionChild target) && target.Parent != _myStats)
+            {
+                target.SetTargetHpBar(_targetHpBar);
+            }
+            _composer.m_DeadZoneWidth = 0.1f;
+            _composer.m_DeadZoneHeight = 0.1f;
+        }
+        private void ResetTarget()
+        {
+            _vcam.LookAt = _defaultTarget;
+            _composer.m_DeadZoneWidth = 0.5f;
+            _composer.m_DeadZoneHeight = 0.5f;
+        }
+        private void RaceCamMode()
+        {
+            _vcam.LookAt = _raceTarget;
+            _composer.m_DeadZoneWidth = 0.1f;
+            _composer.m_DeadZoneHeight = 0.1f;
+        }
     }
 }

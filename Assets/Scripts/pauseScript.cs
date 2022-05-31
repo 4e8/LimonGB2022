@@ -12,7 +12,7 @@ namespace Game
         [SerializeField] Slider settings;
         bool paused = false;
 
-        void Update()
+        private void Update()
         {
             if ((Input.GetKeyUp(KeyCode.Escape)))
             {

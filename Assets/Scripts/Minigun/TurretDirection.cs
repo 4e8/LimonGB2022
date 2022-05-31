@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game
@@ -9,67 +7,68 @@ namespace Game
     public class TurretDirection : MonoBehaviour
     {
 
-        [SerializeField] private Transform target;
-        [SerializeField] private float rotationSpeed = 2f;
-        [SerializeField] private Transform turretX;
-        [SerializeField] private Transform turretY;
-        private Transform turretYSP;
-        [SerializeField] private float requiredAngleToFire = 10;
-        [SerializeField] private GunType gunType;
-        [SerializeField] private bool predictFire = true;
+        [SerializeField] Transform _target;
+        [SerializeField] float _rotationSpeed = 2f;
+        [SerializeField] Transform _turretX;
+        [SerializeField] Transform _turretY;
+
+        Transform _turretYSP;
+
+        [SerializeField] float _requiredAngleToFire = 10;
+        [SerializeField] GunType _gunType;
+        [SerializeField] bool _predictFire = true;
 
         float test;
-        bool readyToFire = false;
+        bool _readyToFire = false;
+        
+        float _angX;
+        Quaternion _qatX;
 
-        float angX;
-        Quaternion qatX;
-
-        float angY;
-        Quaternion qatY;
-        float angleCannon;
-        public bool ReadyToFire => readyToFire;
+        float _angY;
+        Quaternion _qatY;
+        float _angleCannon;
+        public bool ReadyToFire => _readyToFire;
         public enum GunType
         {
             gun,
             cannon,
         }
-        FindTarget findTarget;
-        RangeAttack rangeAttack;
-
+        FindTarget _findTarget;
+        RangeAttack _rangeAttack;
 
         private void Start()
         {
-            findTarget = GetComponent<FindTarget>();
-            rangeAttack = GetComponent<RangeAttack>();
-            turretYSP = rangeAttack.Spawnpoint;
+            _findTarget = GetComponent<FindTarget>();
+            _rangeAttack = GetComponent<RangeAttack>();
+            _turretYSP = _rangeAttack.Spawnpoint;
         }
-        void Update()
+        private void Update()
         {
-            if (!findTarget.HasTarget) return;
+            if (!_findTarget.HasTarget) return;
 
-            target = findTarget.Target;
+            _target = _findTarget.Target;
 
-            var direction = target.position - turretX.position;
-            if (predictFire && TryGetComponent<Rigidbody> (out Rigidbody rigidbody)) direction = direction + rigidbody.velocity;
+            var direction = _target.position - _turretX.position;
+            if (_predictFire && TryGetComponent<Rigidbody> (out Rigidbody rigidbody)) direction = direction + rigidbody.velocity;
 
-            angX = Vector3.SignedAngle(turretX.forward, transform.forward, transform.up) - Vector3.SignedAngle(direction, transform.forward, transform.up);
-            if (angX > 180 || angX < -180) angX = -angX / 5; //need cus gun will rotate around every time your target cross 180, "5" like smoothness koef
-            qatX = Quaternion.AngleAxis(angX * rotationSpeed * Time.deltaTime, Vector3.up); //can delete "* rotationSpeed * Time.deltaTime" and "if" if you dont need smooth rotation
-            turretX.rotation = turretX.rotation * qatX;
+            _angX = Vector3.SignedAngle(_turretX.forward, transform.forward, transform.up) - Vector3.SignedAngle(direction, transform.forward, transform.up);
+            if (_angX > 180 || _angX < -180) _angX = -_angX / 5; //need cus gun will rotate around every time your target cross 180, "5" like smoothness koef
+            _qatX = Quaternion.AngleAxis(_angX * _rotationSpeed * Time.deltaTime, Vector3.up); //can delete "* rotationSpeed * Time.deltaTime" and "if" if you dont need smooth rotation
+            _turretX.rotation = _turretX.rotation * _qatX;
 
-            direction = target.position - turretYSP.position;
+            direction = _target.position - _turretYSP.position;
             test = direction.magnitude;
-            if (gunType == GunType.cannon)
+            if (_gunType == GunType.cannon)
             {
-                angleCannon = (Mathf.Asin((direction.magnitude * 9.81f) / (Mathf.Pow(rangeAttack.Impulse,2))) * Mathf.Rad2Deg) / 2;
-                direction = Vector3.RotateTowards(direction, Vector3.up,angleCannon*Mathf.Deg2Rad,0);
-                angY = Vector3.Angle(Vector3.up, turretY.forward) - Vector3.Angle(Vector3.up, direction);
+                _angleCannon = (Mathf.Asin((direction.magnitude * 9.81f) / (Mathf.Pow(_rangeAttack.Impulse,2))) * Mathf.Rad2Deg) / 2;
+                direction = Vector3.RotateTowards(direction, Vector3.up, _angleCannon * Mathf.Deg2Rad, 0);
+                _angY = Vector3.Angle(Vector3.up, _turretY.forward) - Vector3.Angle(Vector3.up, direction);
             }
-            else angY = Vector3.Angle(Vector3.up, turretY.forward) - Vector3.Angle(Vector3.up, direction);
-            qatY = Quaternion.AngleAxis(-angY * rotationSpeed * Time.deltaTime, Vector3.right);
-            turretY.rotation = turretY.rotation * qatY;
+            else _angY = Vector3.Angle(Vector3.up, _turretY.forward) - Vector3.Angle(Vector3.up, direction);
+            _qatY = Quaternion.AngleAxis(-_angY * _rotationSpeed * Time.deltaTime, Vector3.right);
+            _turretY.rotation = _turretY.rotation * _qatY;
 
-            if (angX < requiredAngleToFire && angY < requiredAngleToFire) readyToFire = true; else readyToFire = false;  
+            if (_angX < _requiredAngleToFire && _angY < _requiredAngleToFire) _readyToFire = true; else _readyToFire = false;  
         }
     }
 }
