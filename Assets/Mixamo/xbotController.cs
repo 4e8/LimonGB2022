@@ -1,8 +1,9 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class xbotController : MonoBehaviour
+public class XbotController : MonoBehaviour
 {
+    [SerializeField] Animator _dollAnimator;
     Animator _animator;
     string _idleStr = "idle";
     string _walkStr = "walk";
@@ -19,13 +20,13 @@ public class xbotController : MonoBehaviour
     [SerializeField] float _runSpeed = 3.5f;
     bool _run = false;
     Quaternion _rotation = Quaternion.identity;
-    Rigidbody _rigidbody;
+    [SerializeField] Rigidbody _rigidbody;
     Vector3 _movement; 
 
     AudioSource _audioSource;
     private void Start()
     {
-        _rigidbody = GetComponent<Rigidbody>();
+        if (!_rigidbody) _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
     }
@@ -33,6 +34,8 @@ public class xbotController : MonoBehaviour
     {
         if (_tree) TreeUpdate();
         else StateUpdate(); 
+
+        if (Input.GetMouseButtonDown(0)) _dollAnimator.enabled = false;
     }
     private void StateUpdate()
     {
