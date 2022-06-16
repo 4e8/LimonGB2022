@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -7,25 +5,25 @@ using UnityEngine.Audio;
 public class AudioMixerController : MonoBehaviour
 {
     [SerializeField] AudioMixer audioMixer;
-    string master = "Master";
-    string fx = "FX";
-    string car = "Car";
-    string music = "Music";
+    string _master = "Master";
+    string _fx = "FX";
+    string _car = "Car";
+    string _music = "Music";
 
     public void SetMaster(float sliderValue)
     {
-        audioMixer.SetFloat(master, sliderValue);
+        audioMixer.SetFloat(_master, sliderValue);
     }
     public void SetFX(float sliderValue)
     {
-        audioMixer.SetFloat(fx, sliderValue);
+        audioMixer.SetFloat(_fx, sliderValue);
     }
     public void SetCar(float sliderValue)
     {
-        audioMixer.SetFloat(car, sliderValue);
+        audioMixer.SetFloat(_car, sliderValue);
     }
     public void SetMusic(float sliderValue)
     {
-        audioMixer.SetFloat(music, sliderValue);
+        audioMixer.SetFloat(_music, sliderValue);
     }
 }

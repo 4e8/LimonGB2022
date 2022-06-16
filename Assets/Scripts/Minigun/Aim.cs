@@ -1,6 +1,7 @@
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.UI;
+using UnityEngine.Rendering.PostProcessing;
 
 namespace Game
 {
@@ -15,17 +16,25 @@ namespace Game
         Transform _defaultTarget;
         [SerializeField] Transform _raceTarget;
         CinemachineComposer _composer;
+
+        DepthOfField _depthOfField;
         private void Start()
         {
             _defaultTarget = _vcam.LookAt;
             _camera = Camera.main;
             _composer = _vcam.GetCinemachineComponent<CinemachineComposer>();
+
+            PostProcessVolume postProcessVolume = _camera.GetComponent<PostProcessVolume>();
+            _depthOfField = postProcessVolume.profile.GetSetting<DepthOfField>();
         }
         private void Update()
         {
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit _hit;
-            
+
+            _depthOfField.focusDistance.value = (transform.position - _camera.transform.position).magnitude;
+
+
             if (!Physics.Raycast(ray, out _hit))
                 return;
 
